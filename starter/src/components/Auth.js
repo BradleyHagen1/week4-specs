@@ -15,6 +15,7 @@ const Auth = () => {
   const submitHandler = (e) => {
     e.preventDefault();
 
+    setDisplay('none')
     console.log("submitHandler called");
 
     const body = {
@@ -22,7 +23,7 @@ const Auth = () => {
       password,
     };
 
-    const url = "https://socialmtn.devmountain.com";
+    const url = "http://localhost:4050";
 
     axios
       .post(register ? `${url}/register` : `${url}/login`, body)
@@ -58,7 +59,8 @@ const Auth = () => {
         />
         <button className="form-btn">{register ? "Sign Up" : "Login"}</button>
       </form>
-      <button className="form-btn">
+      <p style={{display: display}} className= 'auth-msg'>{message}</p>
+      <button className="form-btn" onClick={() => setRegister(!register)}>
         Need to {register ? "Login" : "Sign Up"}?
       </button>
     </main>
