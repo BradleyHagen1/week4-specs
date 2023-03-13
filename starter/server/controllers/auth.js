@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { SECRET } = process.env;
-const { User } = require("../models/users");
+const { User } = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -22,13 +22,13 @@ module.exports = {
   register: async (req, res) => {
     try {
       const { username, password } = req.body;
-      let foundUser = await user.findOne({ where: { username } });
+      let foundUser = await User.findOne({ where: { username } });
       if (foundUser) {
         res.status(400).send("cannot create user");
       } else {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
-        const newUser = await user.create({ username, hashedPassword: hash });
+        const newUser = await User.create({ username, hashedPassword: hash });
         const token = createToken(
           newUser.dataValues.username,
           newUser.dataValues.id
@@ -64,7 +64,7 @@ module.exports = {
             foundUser.dataValues.username,
             foundUser.dataValues.id
           );
-          const exp = date.now() + 1000 * 60 * 60 * 48;
+          const exp = Date.now() + 1000 * 60 * 60 * 48;
           res.status(200).send({
             username: foundUser.dataValues.username,
             userId: foundUser.dataValues.id,
@@ -72,9 +72,11 @@ module.exports = {
             exp,
           });
         } else {
+          console.log('wrong password')
           res.status(400).send("cannot log in");
         }
       } else {
+        console.log('couldnt find user')
         res.status(400).send("cannot log in");
       }
     } catch (err) {

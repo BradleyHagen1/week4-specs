@@ -1,5 +1,5 @@
 const { Post } = require("../models/post");
-const { User } = require("../models/users");
+const { User } = require("../models/user");
 
 module.exports = {
   getAllPosts: async (req, res) => {
@@ -25,7 +25,7 @@ module.exports = {
   getCurrentUserPosts: async (req, res) => {
     try {
       const { userId } = req.params;
-      const postd = await Post.findAll({
+      const posts = await Post.findAll({
         where: { userId: userId },
         include: [
           {
@@ -35,6 +35,8 @@ module.exports = {
           },
         ],
       });
+      res.status(200).send(posts)
+
     } catch (error) {
       console.log("ERROR IN getCurrentUserPosts");
       console.log(error);

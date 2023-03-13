@@ -3,7 +3,7 @@ const {DataTypes} = require('sequelize')
 const {sequelize} = require('../util/database')
 
 module.exports = {
-    post : sequelize.define('post', {
+    Post : sequelize.define('post', {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,

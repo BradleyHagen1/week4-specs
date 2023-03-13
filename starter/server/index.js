@@ -4,7 +4,7 @@ const express = require('express')
 const cors = require('cors')
 
 const {sequelize} = require('./util/database')
-const {PORT} = process.env
+const {SERVER_PORT} = process.env
 const {User} = require('./models/user')
 const {Post} = require('./models/post')
 const {getAllPosts, getCurrentUserPosts, addPost, editPost, deletePost} = require('./controllers/posts')
@@ -29,9 +29,10 @@ app.post('/posts', isAuthenticated, addPost)
 app.put('/posts/:id', isAuthenticated, editPost)
 app.delete('/posts/:id', isAuthenticated, deletePost)
 
-sequelize.sync({ force: true })
+// sequelize.sync({ force: true })
+sequelize.sync()
 
     .then(() => {
-        app.listen(PORT, () => console.log(`db sync successful & server running on port ${PORT}`))
+        app.listen(SERVER_PORT, () => console.log(`db sync successful & server running on port ${SERVER_PORT}`))
     })
     .catch(err => console.log(err))

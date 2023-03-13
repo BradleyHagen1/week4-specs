@@ -66,7 +66,7 @@ const Profile = () => {
             </div>
         )
     })
-
+    console.log(mappedPosts)
     return mappedPosts.length >= 1 ? (
         <main>
             {mappedPosts}
